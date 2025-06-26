@@ -1,0 +1,77 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CartesianRangeControl.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mxc="https://schemas.eremexcontrols.net/avalonia/charts"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CartesianRangeControl.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="CartesianRangeControl"
+        x:CompileBindings="True">
+
+    <Grid RowDefinitions="3* *">
+        <mxc:CartesianChart Grid.Row="0"
+                            BorderThickness="0"
+                            x:Name="MainChart"
+                            DiagramMargin="{Binding DiagramMargin}"
+                            SeriesSource="{Binding Series}">
+            <mxc:CartesianChart.SeriesTemplate>
+                <DataTemplate x:DataType="vm:SeriesViewModel">
+                    <mxc:CartesianSeries DataAdapter="{Binding DataAdapter}">
+                        <mxc:CartesianLineSeriesView Color="{Binding Color}" Thickness="{Binding Thickness}" />
+                    </mxc:CartesianSeries>
+                </DataTemplate>
+            </mxc:CartesianChart.SeriesTemplate>
+
+            <mxc:CartesianChart.AxesX>
+                <mxc:AxisX ShowTitle="False">
+                    <mxc:AxisXRange SynchronizeVisualRange="False"
+                                    VisualMin="{Binding VisualMin, Mode=TwoWay}"
+                                    VisualMax="{Binding VisualMax, Mode=TwoWay}" />
+                </mxc:AxisX>
+            </mxc:CartesianChart.AxesX>
+            <mxc:CartesianChart.AxesY>
+                <mxc:AxisY ShowTitle="False" EnableZooming="False" />
+            </mxc:CartesianChart.AxesY>
+        </mxc:CartesianChart>
+        
+        <mxc:CartesianChart Grid.Row="1"
+                            BorderThickness="0"
+                            x:Name="RangeSelectorChart"
+                            DiagramMargin="{Binding DiagramMargin}"
+                            PointerPressed="RangeSelectorChart_OnPointerPressed"
+                            PointerReleased="RangeSelectorChart_OnPointerReleased"
+                            PointerMoved="RangeSelectorChart_OnPointerMoved"
+                            SeriesSource="{Binding Series}">
+            <mxc:CartesianChart.SeriesTemplate>
+                <DataTemplate x:DataType="vm:SeriesViewModel">
+                    <mxc:CartesianSeries DataAdapter="{Binding DataAdapter}">
+                        <mxc:CartesianLineSeriesView Color="{Binding Color}" Thickness="{Binding Thickness}" />
+                    </mxc:CartesianSeries>
+                </DataTemplate>
+            </mxc:CartesianChart.SeriesTemplate>
+        
+            <mxc:CartesianChart.AxesX>
+                <mxc:AxisX ShowTitle="False" EnableZooming="False" EnableScrolling="False">
+                    <mxc:AxisX.ConstantLines>
+                        <mxc:ConstantLine AxisValue="{Binding VisualMin}" Thickness="3" ShowBehind="False" />
+                        <mxc:ConstantLine AxisValue="{Binding VisualMax}" Thickness="3" ShowBehind="False" />
+                    </mxc:AxisX.ConstantLines>
+                    <mxc:AxisX.Strips>
+                        <mxc:Strip AxisValue1="{Binding VisualMin}" AxisValue2="{Binding VisualMax}" Color="#A0A0A0A0" />
+                    </mxc:AxisX.Strips>
+                </mxc:AxisX>
+            </mxc:CartesianChart.AxesX>
+            <mxc:CartesianChart.AxesY>
+                <mxc:AxisY ShowTitle="False" EnableZooming="False" EnableScrolling="False" />
+            </mxc:CartesianChart.AxesY>
+        
+            <mxc:CartesianChart.CrosshairOptions>
+                <mxc:CrosshairOptions ShowCrosshair="False" />
+            </mxc:CartesianChart.CrosshairOptions>
+        </mxc:CartesianChart>
+    </Grid>
+
+</Window>
